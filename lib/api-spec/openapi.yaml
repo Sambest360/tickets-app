@@ -1,0 +1,462 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Crowned In His Glory 2026 Event API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: tickets
+    description: Ticket operations
+  - name: attendees
+    description: Attendee operations
+  - name: checkin
+    description: Check-in operations
+  - name: admin
+    description: Admin operations
+  - name: stats
+    description: Statistics and analytics
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /tickets:
+    get:
+      operationId: listTickets
+      tags: [tickets]
+      summary: List all tickets (admin)
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of tickets
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketListResponse"
+    post:
+      operationId: registerTicket
+      tags: [tickets]
+      summary: Register and purchase a ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TicketRegistration"
+      responses:
+        "201":
+          description: Ticket created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tickets/{id}:
+    get:
+      operationId: getTicket
+      tags: [tickets]
+      summary: Get ticket by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Ticket found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateTicket
+      tags: [tickets]
+      summary: Update ticket status (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TicketUpdate"
+      responses:
+        "200":
+          description: Ticket updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+    delete:
+      operationId: cancelTicket
+      tags: [tickets]
+      summary: Cancel a ticket (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Ticket cancelled
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+
+  /tickets/number/{ticketNumber}:
+    get:
+      operationId: getTicketByNumber
+      tags: [tickets]
+      summary: Get ticket by ticket number (e.g. CG2026-000001)
+      parameters:
+        - name: ticketNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ticket found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /checkin:
+    post:
+      operationId: checkInTicket
+      tags: [checkin]
+      summary: Check in an attendee via QR code scan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckInInput"
+      responses:
+        "200":
+          description: Check-in result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckInResult"
+
+  /checkin/list:
+    get:
+      operationId: listCheckIns
+      tags: [checkin]
+      summary: List all check-in records
+      responses:
+        "200":
+          description: Check-in records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CheckIn"
+
+  /stats/summary:
+    get:
+      operationId: getEventStats
+      tags: [stats]
+      summary: Get event dashboard statistics
+      responses:
+        "200":
+          description: Event statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventStats"
+
+  /stats/recent:
+    get:
+      operationId: getRecentRegistrations
+      tags: [stats]
+      summary: Get recent ticket registrations (activity feed)
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Recent registrations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ticket"
+
+  /admin/login:
+    post:
+      operationId: adminLogin
+      tags: [admin]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminCredentials"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminAuthPayload"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/verify:
+    get:
+      operationId: verifyAdmin
+      tags: [admin]
+      summary: Verify admin session token
+      responses:
+        "200":
+          description: Valid session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminVerifyPayload"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+
+    Ticket:
+      type: object
+      required: [id, ticketNumber, firstName, lastName, phone, gender, status, seatNumber, qrCode, createdAt]
+      properties:
+        id:
+          type: integer
+        ticketNumber:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        gender:
+          type: string
+        churchAssembly:
+          type: ["string", "null"]
+        status:
+          type: string
+        seatNumber:
+          type: string
+        qrCode:
+          type: string
+        checkedIn:
+          type: boolean
+        checkedInAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    TicketListResponse:
+      type: object
+      required: [tickets, total, page, limit]
+      properties:
+        tickets:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ticket"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    TicketRegistration:
+      type: object
+      required: [firstName, lastName, phone, gender]
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+        lastName:
+          type: string
+          minLength: 1
+        phone:
+          type: string
+          minLength: 1
+        gender:
+          type: string
+        churchAssembly:
+          type: string
+        quantity:
+          type: integer
+
+    TicketUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+        checkedIn:
+          type: boolean
+
+    CheckInInput:
+      type: object
+      required: [ticketNumber]
+      properties:
+        ticketNumber:
+          type: string
+        volunteerName:
+          type: string
+
+    CheckInResult:
+      type: object
+      required: [status, message]
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        ticket:
+          $ref: "#/components/schemas/Ticket"
+
+    CheckIn:
+      type: object
+      required: [id, ticketId, ticketNumber, attendeeName, checkedInAt]
+      properties:
+        id:
+          type: integer
+        ticketId:
+          type: integer
+        ticketNumber:
+          type: string
+        attendeeName:
+          type: string
+        checkedInAt:
+          type: string
+        volunteerName:
+          type: ["string", "null"]
+
+    EventStats:
+      type: object
+      required: [totalTickets, totalRevenue, checkedIn, remaining, pendingCount, maleCount, femaleCount]
+      properties:
+        totalTickets:
+          type: integer
+        totalRevenue:
+          type: number
+        checkedIn:
+          type: integer
+        remaining:
+          type: integer
+        pendingCount:
+          type: integer
+        maleCount:
+          type: integer
+        femaleCount:
+          type: integer
+
+    AdminCredentials:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    AdminAuthPayload:
+      type: object
+      required: [token, username]
+      properties:
+        token:
+          type: string
+        username:
+          type: string
+
+    AdminVerifyPayload:
+      type: object
+      required: [valid, username]
+      properties:
+        valid:
+          type: boolean
+        username:
+          type: string

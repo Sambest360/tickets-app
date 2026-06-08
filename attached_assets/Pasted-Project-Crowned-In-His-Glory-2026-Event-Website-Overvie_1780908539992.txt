@@ -1,0 +1,613 @@
+Project: Crowned In His Glory 2026 Event Website
+
+Overview
+
+Build a premium event website for The Church of Pentecost – Post, Elizabeth District Youth Ministry for the event:
+
+Crowned In His Glory 2026
+
+The website must have:
+
+* Modern luxury design
+* Gold and black theme inspired by the uploaded ticket
+* Online ticket purchasing
+* Digital ticket generation
+* QR code generation
+* QR code scanning and validation system
+* Admin dashboard
+* Mobile responsive design
+* Event analytics
+* Attendee management
+
+The website should feel like a premium awards ceremony, royal gala, and Christian excellence event.
+
+⸻
+
+Design Direction
+
+Brand Theme
+
+Inspired by:
+
+* Gold crowns
+* Royal elegance
+* Excellence
+* Black luxury backgrounds
+* Gold metallic accents
+* Christian prestige
+* Red carpet event atmosphere
+
+Primary Colors
+
+Gold: #D4AF37
+Dark Gold: #B8860B
+Black: #0A0A0A
+Off White: #F8F8F8
+Light Gold: #F5E6A3
+
+Fonts
+
+Headings:
+
+* Playfair Display
+* Cinzel
+
+Body:
+
+* Poppins
+* Inter
+
+Accent Script:
+
+* Great Vibes
+
+⸻
+
+Landing Page
+
+Hero Section
+
+Full-screen section.
+
+Background:
+
+* Dark luxury background
+* Floating gold particles
+* Crown silhouette
+* Subtle spotlight effects
+
+Center Content:
+
+THE CHURCH OF PENTECOST
+POST ELIZABETH DISTRICT
+
+CROWNED IN HIS GLORY 2026
+
+A Night of Elegance, Talent, Culture and Godly Excellence
+
+Date:
+25 June 2026
+
+Time:
+6PM – 9PM
+
+Venue:
+16 Glen Street
+Richmond Hill
+
+Ticket:
+R50
+
+Buttons:
+
+Gold Button:
+“Buy Ticket”
+
+Outlined Button:
+“Learn More”
+
+⸻
+
+Countdown Timer
+
+Display countdown to event.
+
+Show:
+
+Days
+Hours
+Minutes
+Seconds
+
+Animated luxury cards.
+
+⸻
+
+Event Details Section
+
+Luxury card layout.
+
+Include:
+
+Date
+
+Thursday, 25 June 2026
+
+Time
+
+6:00 PM – 9:00 PM
+
+Venue
+
+16 Glen Street
+Richmond Hill
+
+Ticket Price
+
+R50
+
+Dress Code
+
+Royal Elegance
+
+Purpose
+
+Support Youth Ministry Projects and Outreach Initiatives
+
+⸻
+
+About The Event
+
+Section with crown artwork.
+
+Text:
+
+Crowned In His Glory is a celebration of purpose, character, talent and Christian excellence. Contestants showcase their gifts while reflecting Christ-like values and leadership.
+
+⸻
+
+Contestants Section
+
+Admin can upload:
+
+* Photo
+* Name
+* Biography
+* Talent Category
+
+Display beautiful gold cards.
+
+⸻
+
+Gallery Section
+
+Admin can upload:
+
+* Images
+* Videos
+
+Masonry style gallery.
+
+⸻
+
+Sponsors Section
+
+Display sponsor logos.
+
+⸻
+
+Ticket Purchase System
+
+Checkout
+
+Collect:
+
+First Name
+Last Name
+Email
+Phone Number
+Gender
+Church Assembly (optional)
+
+Ticket Quantity
+
+⸻
+
+Payment
+
+Support:
+
+* Yoco
+* PayFast
+
+After payment succeeds:
+
+Create ticket automatically.
+
+⸻
+
+Digital Ticket Generation
+
+Generate a premium digital ticket that resembles the uploaded ticket design.
+
+Ticket Design Requirements:
+
+Left Side
+
+Ticket Number
+
+Attendee Name
+
+Date
+
+Time
+
+Venue
+
+Seat Number
+
+QR Code
+
+Right Side
+
+Gold crown
+
+Crowned In His Glory 2026 branding
+
+Event information
+
+Premium gold texture
+
+Luxury background
+
+⸻
+
+QR Code System
+
+Each ticket receives:
+
+Unique Ticket ID
+
+Example:
+
+CG2026-000001
+
+CG2026-000002
+
+CG2026-000003
+
+Generate:
+
+QR Code containing:
+
+{
+ticketId,
+name,
+email,
+eventId
+}
+
+⸻
+
+Ticket Delivery
+
+After payment:
+
+1. Generate ticket image
+2. Generate PDF ticket
+3. Email ticket
+4. Save ticket in attendee account
+
+Email subject:
+
+Your Crowned In His Glory 2026 Ticket
+
+Include:
+
+* Ticket image
+* PDF attachment
+* Event details
+
+⸻
+
+User Dashboard
+
+Attendees can:
+
+View Tickets
+
+Download PDF
+
+Download Ticket Image
+
+View Event Updates
+
+Profile Management
+
+⸻
+
+Admin Dashboard
+
+Secure login.
+
+Admin can:
+
+Dashboard Stats
+
+Total Sales
+
+Total Revenue
+
+Tickets Sold
+
+Remaining Capacity
+
+Checked-In Guests
+
+Pending Payments
+
+⸻
+
+Ticket Management
+
+View all tickets
+
+Search tickets
+
+Filter tickets
+
+Cancel tickets
+
+Resend tickets
+
+Export CSV
+
+⸻
+
+Event Check-In
+
+Real-time attendee validation.
+
+Admin sees:
+
+Valid Ticket
+
+Already Used
+
+Invalid Ticket
+
+Attendee Name
+
+Check-In Time
+
+⸻
+
+Mobile Scanner App
+
+Build a companion mobile web app.
+
+Features:
+
+QR Scanner
+
+Use phone camera.
+
+Scan ticket QR code.
+
+Immediately display:
+
+Green Screen
+
+VALID TICKET
+
+or
+
+Red Screen
+
+INVALID TICKET
+
+or
+
+Orange Screen
+
+ALREADY CHECKED IN
+
+⸻
+
+Check-In Process
+
+When valid:
+
+Record:
+
+Date
+
+Time
+
+Volunteer Name
+
+Device Used
+
+Mark attendee as checked in.
+
+Prevent duplicate entries.
+
+⸻
+
+Security
+
+Use:
+
+JWT Authentication
+
+Encrypted Ticket IDs
+
+Rate Limiting
+
+Secure Payment Verification
+
+Server-side QR Validation
+
+Prevent QR Tampering
+
+⸻
+
+Database Schema
+
+Users
+
+id
+name
+email
+phone
+role
+
+Events
+
+id
+name
+date
+venue
+
+Tickets
+
+id
+ticketNumber
+userId
+eventId
+seatNumber
+qrCode
+status
+
+Payments
+
+id
+ticketId
+amount
+provider
+status
+
+CheckIns
+
+id
+ticketId
+checkedInAt
+checkedInBy
+
+⸻
+
+Additional Premium Features
+
+Live Seat Allocation
+
+Automatic seat assignment.
+
+SMS Notifications
+
+Send reminders before event.
+
+WhatsApp Integration
+
+Send ticket via WhatsApp.
+
+Digital Badge
+
+Generate attendee badge.
+
+Guest List Export
+
+Excel and CSV export.
+
+Attendance Reports
+
+Generate event reports.
+
+⸻
+
+Animations
+
+Use:
+
+Framer Motion
+
+Smooth scrolling
+
+Gold shimmer effects
+
+Fade-in sections
+
+Floating crowns
+
+Luxury hover effects
+
+Particle backgrounds
+
+⸻
+
+Technical Stack
+
+Frontend:
+
+* Next.js
+* TypeScript
+* TailwindCSS
+* Framer Motion
+
+Backend:
+
+* Node.js
+* Express
+
+Database:
+
+* PostgreSQL
+
+Storage:
+
+* Supabase Storage
+
+Authentication:
+
+* Supabase Auth
+
+Payments:
+
+* Yoco
+* PayFast
+
+QR:
+
+* qrcode package
+
+Scanner:
+
+* html5-qrcode
+
+Email:
+
+* Resend
+
+PDF:
+
+* pdf-lib
+
+Deployment:
+
+* Vercel
+
+⸻
+
+Important Design Requirement
+
+The generated ticket must visually match the uploaded ticket style:
+
+* Metallic gold texture
+* Black accents
+* Crown imagery
+* Premium luxury appearance
+* Church branding
+* Easy-to-scan QR code
+* Mobile-friendly digital version
+* Printable PDF version
+
+The entire website should feel like a luxury Christian awards event rather than a standard church website.

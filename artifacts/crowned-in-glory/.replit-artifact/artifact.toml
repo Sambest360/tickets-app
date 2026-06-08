@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Crowned In His Glory 2026"
+version = "1.0.0"
+id = "artifacts/crowned-in-glory"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24155
+
+[services.development]
+run = "pnpm --filter @workspace/crowned-in-glory run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/crowned-in-glory", "run", "build" ]
+publicDir = "artifacts/crowned-in-glory/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24155"
+BASE_PATH = "/"

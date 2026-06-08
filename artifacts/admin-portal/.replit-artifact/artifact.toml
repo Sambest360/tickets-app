@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/admin-portal/"
+title = "CIG 2026 Admin"
+version = "1.0.0"
+id = "artifacts/admin-portal"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/admin-portal/" ]
+localPort = 21826
+
+[services.development]
+run = "pnpm --filter @workspace/admin-portal run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/admin-portal", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/admin-portal", "run", "serve" ]
+
+[services.env]
+PORT = "21826"
+BASE_PATH = "/admin-portal/"
