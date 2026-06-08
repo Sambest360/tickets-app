@@ -3,12 +3,12 @@
   "framework": null,
   "installCommand": "pnpm install",
   "buildCommand": "pnpm -w run build:vercel",
-  "outputDirectory": "artifacts/crowned-in-glory/dist/public",
+  "outputDirectory": "../crowned-in-glory/dist/public",
   "functions": {
     "api/index.mjs": {
       "maxDuration": 30,
       "memory": 1024,
-      "includeFiles": "artifacts/api-server/dist/**"
+      "includeFiles": "dist/**"
     }
   },
   "rewrites": [
