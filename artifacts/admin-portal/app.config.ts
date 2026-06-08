@@ -1,9 +1,12 @@
 import type { ConfigContext, ExpoConfig } from "expo/config";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const packageDir = path.dirname(fileURLToPath(import.meta.url));
 
 function loadRootEnv(): void {
-  const envPath = path.resolve(__dirname, "../../.env");
+  const envPath = path.resolve(packageDir, "../../.env");
   if (!fs.existsSync(envPath)) return;
 
   for (const line of fs.readFileSync(envPath, "utf8").split("\n")) {
@@ -21,4 +24,5 @@ function loadRootEnv(): void {
 
 loadRootEnv();
 
-export default ({ config }: ConfigContext): ExpoConfig => config;
+export default ({ config }: ConfigContext): ExpoConfig =>
+  ({ ...config }) as ExpoConfig;
