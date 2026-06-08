@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "pnpm -w install",
+  "installCommand": "pnpm install",
   "buildCommand": "pnpm -w run build:vercel",
   "outputDirectory": "artifacts/crowned-in-glory/dist/public",
   "functions": {
